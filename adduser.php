@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>adduser</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <nav class="navbar navbar-default " role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="http://localhost/signer/signer.php">Signer</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="http://localhost/signer/adduser.php">AddUser</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/signer/search.php">SearchUser</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/signer/delete.php">DeleteUser</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form class="form-horizontal" role="form" method="post" action="adduser.php">
+                <div class="form-group">
+                    <label for="inputUserid3" class="col-sm-2 control-label">UserID</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="inputUserid3"class="form-control" id="inputUserid3" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputUsername3" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="inputUsername3" class="form-control" id="inputUsername3" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">登録</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-2.2.3.min.js"></script>
+</html>
+
+<?php
+require_once('config/config.php');
+mysqli_select_db($conn,'signer');
+ob_start();
+
+$userid=@$_POST['inputUserid3'];
+$username=@$_POST['inputUsername3'];
+
+//增
+if($userid && $username){
+    $sql = "INSERT INTO users (userid,username)VALUES('$userid','$username')";
+    if($conn->query($sql) === TRUE){
+        exit('<div style="margin-top: 50px;margin-left: 300px;" >register success!<a href="http://localhost/signer/adduser.php">もどる</a></div>');
+    }else{
+        echo "error: ".$sql."<br>".$conn->error;
+    }
+    $conn->close();
+}else{
+    exit('<div style="margin-top: 50px;margin-left: 400px;" >IDと名前両方書いてください！<a href="http://localhost/signer/adduser.php">もどる</a></div>');
+}
+if($userid){
+    $sql = "INSERT INTO info (userid,username,logindate)VALUES('$userid','$username','')";
+    if($conn->query($sql) === TRUE){
+        exit();
+    }else{
+        echo "error: ".$sql."<br>".$conn->error;
+    }
+    $conn->close();
+}else{
+    exit();
+}
