@@ -6,6 +6,9 @@
  * Time: 16:16
  */
 session_start();
+
+require_once('class.signer.php');
+var_dump(Signer::getInstance()->getUsers());
 ?>
 <!DOCTYPE html>
 <html>
