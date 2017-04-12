@@ -31,8 +31,20 @@ class Signer {
 		}
 	}
 
+	/**
+	 * Returns users
+	 */
 	public function getUsers() {
 		$stmt = $this->dbc->prepare("select * from `users`");
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * Returns logs joined with users
+	 */
+	public function getLogs() {
+		$stmt = $this->dbc->prepare("select * from `logs` natural join `users`");
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}

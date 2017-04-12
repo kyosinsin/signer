@@ -107,6 +107,29 @@ require_once('class.signer.php');
     </div>
     <div class="row clearfix">
         <div class="col-md-12 column">
+            <h3>Logs</h3>
+            <table width='1200px' align='center'; style='text-align:center;margin-top:50px;color:black' border='3'>
+                <thead>
+                    <tr>
+                        <th style='text-align:center;'>id</th>
+                        <th style='text-align:center;'>user.name</th>
+                        <th style='text-align:center;'>datetime</th>
+                        <th style='text-align:center;'>type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach (Signer::getInstance()->getLogs() as $idx => $log) { ?>
+                    <tr>
+                        <td><?= $log['id'] ?></td>
+                        <td><?= $log['name'] ?></td>
+                        <td><?= $log['datetime'] ?></td>
+                        <td><?= $log['type'] ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 column">
             <?php
             require_once('config/config.php');
             mysqli_select_db($conn,'signer');
@@ -123,7 +146,7 @@ require_once('class.signer.php');
                     <th style='text-align:center;'>UserID</th>
                     <th style='text-align:center;'>Username</th>
                     <th style='text-align:center;'>sign in time</th>
-                    <th style='text-align:center;'>state</t>
+                    <th style='text-align:center;'>state</th>
                 </tr>";
             while($row = mysqli_fetch_array($result)) {
                 if (@$row['userid'] == $userid) {
