@@ -41,10 +41,12 @@ require_once('class.signer.php');
                 Signer
             </h1>
         </div>
-        <div class="col-md-4 column" style="margin-top: 160px">
-            <h5>* Turn your sight on camera when you sign in the system </h5>
+        <div class="col-md-4 column" style="margin-top: 100px">
+            <a href="./adduser.php">管理者ページ</a>
+            <h5 style="margin-top: 60px">* Turn your sight on camera when you sign in the system </h5>
         </div>
     </div>
+
     <div class="row clearfix">
         <div class="col-md-6 column">
             <form class="form-horizontal" name="form-horizontal" role="form" method="post" action="signer.php" onsubmit="return check()">
