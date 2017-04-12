@@ -1,4 +1,16 @@
 <?php
+/**
+ * Created by PhpStorm
+ * User: kyosin
+ * Date: 2017/2/20
+ * Time: 16:16
+ */
+session_start();
+
+require_once('class.signer.php');
+var_dump(Signer::getInstance()->getUsers());
+?>
+<?php
 
 switch (true) {
     case !isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']):
@@ -61,6 +73,23 @@ header('Content-Type: text/html; charset=utf-8');
                     </div>
                 </div>
             </form>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>userName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach (Signer::getInstance()->getUsers() as $idx => $user) { ?>
+                        <tr>
+                            <th scope="row"><?= $user['id'] ?></th>
+                            <td><?= $user['name'] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
