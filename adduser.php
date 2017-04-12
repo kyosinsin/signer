@@ -1,3 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm
+ * User: kyosin
+ * Date: 2017/2/20
+ * Time: 16:16
+ */
+session_start();
+
+require_once('class.signer.php');
+var_dump(Signer::getInstance()->getUsers());
+?>
+<?php
+
+switch (true) {
+    case !isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']):
+    case $_SERVER['PHP_AUTH_USER'] !== 'itolab':
+    case $_SERVER['PHP_AUTH_PW']   !== 'qiao':
+        header('WWW-Authenticate: Basic realm="Enter username and password."');
+        header('Content-Type: text/plain; charset=utf-8');
+        die('このページを見るにはログインが必要です');
+}
+
+header('Content-Type: text/html; charset=utf-8');
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +40,18 @@
         <div class="col-md-12 column">
             <nav class="navbar navbar-default " role="navigation">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="http://localhost/signer/signer.php">Signer</a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="./signer.php">Signer</a>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="http://localhost/signer/adduser.php">AddUser</a>
+                            <a href="./adduser.php">AddUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/search.php">SearchUser</a>
+                            <a href="./search.php">SearchUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/delete.php">DeleteUser</a>
+                            <a href="./delete.php">DeleteUser</a>
                         </li>
                     </ul>
                 </div>
@@ -34,13 +62,7 @@
         <div class="col-md-12 column">
             <form class="form-horizontal" role="form" method="post" action="adduser.php">
                 <div class="form-group">
-                    <label for="inputUserid3" class="col-sm-2 control-label">UserID</label>
-                    <div class="col-sm-6">
-                        <input type="text" name="inputUserid3"class="form-control" id="inputUserid3" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputUsername3" class="col-sm-2 control-label">Username</label>
+                    <label for="inputUsername3" class="col-sm-2 control-label">UserName</label>
                     <div class="col-sm-6">
                         <input type="text" name="inputUsername3" class="form-control" id="inputUsername3" />
                     </div>
@@ -51,6 +73,23 @@
                     </div>
                 </div>
             </form>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>userName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach (Signer::getInstance()->getUsers() as $idx => $user) { ?>
+                        <tr>
+                            <th scope="row"><?= $user['id'] ?></th>
+                            <td><?= $user['name'] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -64,29 +103,17 @@ require_once('config/config.php');
 mysqli_select_db($conn,'signer');
 ob_start();
 
-$userid=@$_POST['inputUserid3'];
 $username=@$_POST['inputUsername3'];
 
 //增
-if($userid && $username){
-    $sql = "INSERT INTO users (userid,username)VALUES('$userid','$username')";
+if($username){
+    $sql = "INSERT INTO users (name)VALUES('$username')";
     if($conn->query($sql) === TRUE){
-        exit('<div style="margin-top: 50px;margin-left: 300px;" >register success!<a href="http://localhost/signer/adduser.php">もどる</a></div>');
+        exit('<div style="margin-top: 50px;margin-left: 300px;" >register success!<a href="./adduser.php">もどる</a></div>');
     }else{
         echo "error: ".$sql."<br>".$conn->error;
     }
     $conn->close();
 }else{
-    exit('<div style="margin-top: 50px;margin-left: 400px;" >IDと名前両方書いてください！<a href="http://localhost/signer/adduser.php">もどる</a></div>');
-}
-if($userid){
-    $sql = "INSERT INTO info (userid,username,logindate)VALUES('$userid','$username','')";
-    if($conn->query($sql) === TRUE){
-        exit();
-    }else{
-        echo "error: ".$sql."<br>".$conn->error;
-    }
-    $conn->close();
-}else{
-    exit();
+    exit('<div style="margin-top: 50px;margin-left: 400px;" >名前を書いてください！<a href="./adduser.php">もどる</a></div>');
 }
