@@ -19,6 +19,8 @@ require_once('class.signer.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>sign in</title>
     <script type="text/javascript" src="js/webcam.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery-2.2.3.min.js"></script>
     <!-- Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
@@ -26,8 +28,61 @@ require_once('class.signer.php');
         .btn1 {height:28px; line-height:28px; border:1px solid #d3d3d3; margin-top:10px; background:url(images/btn_bg.gif) repeat-x; cursor:pointer}
         #results{margin-top:50px}
     </style>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Signer -->
+    <script src="js/myjs.js" language="JavaScript"></script>
+    <script type='text/javascript'>
+    <!--
+        function onload() {
+            webcam.set_api_url( 'action.php' );
+            webcam.set_quality( 100 ); // JPEG quality (1 - 100)
+            webcam.set_shutter_sound( false ); // play shutter click sound
+            webcam.set_hook( 'onComplete', 'onCompleteUpload' );
+        }
+
+        function login() {
+            // take snapshot and upload to server
+            document.getElementById('results').innerHTML = '<h4>Uploading...</h4>';
+            webcam.snap();
+        }
+
+        function onCompleteUpload(msg) {
+            // extract URL out of PHP output
+            if (msg.match(/(http\:\/\/\S+)/)) {
+                var image_url = RegExp.$1;
+                // show JPEG image in page
+                document.getElementById('results').innerHTML =
+                    '<h4></h4>' +
+                    '<img src="' + image_url + '">';
+
+                // reset camera for another shot
+                webcam.reset();
+            }
+            else alert("PHP Error: " + msg);
+        }
+
+        function logout() {
+
+        }
+
+        // 验证用户名和密码不为空
+        function check(){
+            var x=document.forms["form-horizontal"]["inputUsername3"].value;
+            if(x==null || x==""){
+                alert("用户名不能为空！");
+                return false;
+            }
+            var z=document.forms["form-horizontal"]["inputPassword3"].value;
+            if(z==null || z==""){
+                alert("密码不能为空！");
+                return false;
+            }
+        }
+    // -->
+    </script>
 </head>
-<body>
+<body onload="onload()">
 <div style="position:absolute; width:100%; height:100%; z-index:-1; left:0; top:0;">
     <img src="images/bg.jpg" height="100%" width="100%" style="left:0; top:0;">
 </div>
@@ -61,48 +116,15 @@ require_once('class.signer.php');
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" onclick="take_snapshot()">Sign in</button>
-                        <a href="signer.php?action=logout"><button type="button" class="btn btn-default">Reset All</button></a>
+                        <button type="submit" class="btn btn-default" onclick="login()">Sign in</button>
+                        <button type="button" class="btn btn-default" onclick="logout()">Sign out</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-6 column">
-            <div id="cam">
-                <script language="JavaScript">
-                    webcam.set_api_url( 'action.php' );
-                    webcam.set_quality( 100 ); // JPEG quality (1 - 100)
-                    webcam.set_shutter_sound( false ); // play shutter click sound
-                    document.write( webcam.get_html(250, 170, 70,50) );
-                </script>
-
-                <script language="JavaScript">
-                    webcam.set_hook( 'onComplete', 'my_completion_handler' );
-
-                    function take_snapshot() {
-                        // take snapshot and upload to server
-                        document.getElementById('results').innerHTML = '<h4>Uploading...</h4>';
-                        webcam.snap();
-                    }
-                    function my_completion_handler(msg) {
-                        // extract URL out of PHP output
-                        if (msg.match(/(http\:\/\/\S+)/)) {
-                            var image_url = RegExp.$1;
-                            // show JPEG image in page
-                            document.getElementById('results').innerHTML =
-                                '<h4></h4>' +
-                                '<img src="' + image_url + '">';
-
-                            // reset camera for another shot
-                            webcam.reset();
-                        }
-                        else alert("PHP Error: " + msg);
-                    }
-                </script>
-            </div>
-            <div id="results">
-
-            </div>
+            <div id="cam"><script>document.write( webcam.get_html(250, 170, 70,50) );</script></div>
+            <div id="results"></div>
         </div>
     </div>
     <div class="row clearfix">
@@ -197,10 +219,5 @@ require_once('class.signer.php');
     </div>
 </div>
 </body>
-<script src="js/myjs.js" language="JavaScript"></script>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/jquery-2.2.3.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
 
 </html>
