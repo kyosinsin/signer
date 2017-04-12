@@ -56,10 +56,9 @@ var_dump(Signer::getInstance()->getUsers());
                     <div class="col-sm-5">
 <!--                        <br><input type="text" class="form-control" name="inputUserID3" id="inputUserID3" /><br>-->
                         <br><select class="form-control" name="inputUserID3" id="inputUserID3">
-                            <option value="1">QIAO SENSEN</option>
-                            <option value="2">LI NA</option>
-                            <option value="3">KANG YUN</option>
-                            <option value="4">YU WANHE</option>
+                            <?php foreach (Signer::getInstance()->getUsers() as $idx => $user) { ?>
+                                <option value="<?= $user['id'] ?>"><?= $user['name'] ?></option>
+                            <?php } ?>
                         </select><br>
                     </div>
                 </div>
