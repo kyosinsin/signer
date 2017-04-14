@@ -20,13 +20,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="http://localhost/signer/adduser.php">AddUser</a>
+                            <a href="/signer/adduser.php">AddUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/search.php">SearchUser</a>
+                            <a href="/signer/search.php">SearchUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/delete.php">DeleteUser</a>
+                            <a href="/signer/delete.php">DeleteUser</a>
                         </li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search" action="search.php" method="post">

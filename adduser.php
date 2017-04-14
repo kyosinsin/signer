@@ -17,13 +17,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="http://localhost/signer/adduser.php">AddUser</a>
+                            <a href="/signer/adduser.php">AddUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/search.php">SearchUser</a>
+                            <a href="/signer/search.php">SearchUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/delete.php">DeleteUser</a>
+                            <a href="/signer/delete.php">DeleteUser</a>
                         </li>
                     </ul>
                 </div>
@@ -33,14 +33,14 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <form class="form-horizontal" role="form" method="post" action="adduser.php">
+<!--                <div class="form-group">-->
+<!--                    <label for="inputUserid3" class="col-sm-2 control-label">UserID</label>-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <input type="text" name="inputUserid3"class="form-control" id="inputUserid3" />-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="form-group">
-                    <label for="inputUserid3" class="col-sm-2 control-label">UserID</label>
-                    <div class="col-sm-6">
-                        <input type="text" name="inputUserid3"class="form-control" id="inputUserid3" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputUsername3" class="col-sm-2 control-label">Username</label>
+                    <label for="inputUsername3" class="col-sm-2 control-label">NAME</label>
                     <div class="col-sm-6">
                         <input type="text" name="inputUsername3" class="form-control" id="inputUsername3" />
                     </div>
@@ -64,12 +64,11 @@ require_once('config/config.php');
 mysqli_select_db($conn,'signer');
 ob_start();
 
-$userid=@$_POST['inputUserid3'];
 $username=@$_POST['inputUsername3'];
 
-//增
-if($userid && $username){
-    $sql = "INSERT INTO users (userid,username)VALUES('$userid','$username')";
+//新規登録
+if($username){
+    $sql = "INSERT INTO users (name)VALUES('$username')";
     if($conn->query($sql) === TRUE){
         exit('<div style="margin-top: 50px;margin-left: 300px;" >register success!<a href="http://localhost/signer/adduser.php">もどる</a></div>');
     }else{
@@ -77,7 +76,7 @@ if($userid && $username){
     }
     $conn->close();
 }else{
-    exit('<div style="margin-top: 50px;margin-left: 400px;" >IDと名前両方書いてください！<a href="http://localhost/signer/adduser.php">もどる</a></div>');
+    exit('<div style="margin-top: 50px;margin-left: 400px;" >名前を書いてください！<a href="http://localhost/signer/adduser.php">もどる</a></div>');
 }
 if($userid){
     $sql = "INSERT INTO info (userid,username,logindate)VALUES('$userid','$username','')";

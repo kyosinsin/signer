@@ -17,13 +17,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="http://localhost/signer/adduser.php">AddUser</a>
+                            <a href="/signer/adduser.php">AddUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/search.php">SearchUser</a>
+                            <a href="/signer/search.php">SearchUser</a>
                         </li>
                         <li>
-                            <a href="http://localhost/signer/delete.php">DeleteUser</a>
+                            <a href="/signer/delete.php">DeleteUser</a>
                         </li>
                     </ul>
                 </div>
@@ -42,7 +42,7 @@
                 require_once('config/config.php');
                 mysqli_select_db($conn,'signer');
 
-                $result = mysqli_query($conn,"select * from users order by userid asc");
+                $result = mysqli_query($conn,"select * from users order by id asc");
                 $userList[] = array();
 
                 while(@$row = mysqli_fetch_array($result)){
@@ -55,10 +55,10 @@
                         if($i>0){
                             echo "
              <tr>
-              <td> " . $user['userid'] . "</td>
-              <td> " . $user['username'] . "</td>
+              <td> " . $user['id'] . "</td>
+              <td> " . $user['name'] . "</td>
               <td>                  
-                  <a href='deleteAction.php?id=" . $user['userid'] . "');\"> delete</a>
+                  <a href='deleteAction.php?id=" . $user['id'] . "');\"> delete</a>
               </td>
              </tr>
           ";

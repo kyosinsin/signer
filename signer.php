@@ -40,6 +40,7 @@ session_start();
             </h1>
         </div>
         <div class="col-md-4 column" style="margin-top: 160px">
+            <a href="/signer/search.php">管理者ページ</a>
             <h5>* Turn your sight on camera when you sign in the system </h5>
         </div>
     </div>
@@ -47,14 +48,18 @@ session_start();
         <div class="col-md-6 column">
             <form class="form-horizontal" name="form-horizontal" role="form" method="post" action="signer.php" onsubmit="return check()">
                 <div class="form-group">
-                    <label for="inputUsername3" class="col-sm-2 control-label"><br>UserID</label>
+                    <label for="inputUsername3" class="col-sm-2 control-label"><br>NAME</label>
                     <div class="col-sm-5">
-<!--                        <br><input type="text" class="form-control" name="inputUserID3" id="inputUserID3" /><br>-->
                         <br><select class="form-control" name="inputUserID3" id="inputUserID3">
-                            <option value="1">QIAO SENSENAAAA</option>
-                            <option value="2">LI NA</option>
-                            <option value="3">KANG YUN</option>
-                            <option value="4">YU WANHE</option>
+                            <option value="0">名前を選んでね</option>
+                            <?php
+                            require_once('config/config.php');
+                            mysqli_select_db($conn,'signer');
+                            $result = mysqli_query($conn,'select * from users');
+                            while($row = mysqli_fetch_array($result)) {
+                                echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                            }
+                            ?>
                         </select><br>
                     </div>
                 </div>
@@ -115,7 +120,7 @@ session_start();
             $userid = @$_POST['inputUserID3'];
 
             //检测用户名及密码是否正确
-            $result = mysqli_query($conn,"select * from users where userid='$userid'limit 1");
+            $result = mysqli_query($conn,"select * from users where id='$userid'limit 1");
             echo "<table width='1200px' align='center'; style='text-align:center;margin-top:50px;;color:black'border='3'>
                 <tr>
                     <th style='text-align:center;'>Icon</th>
@@ -125,12 +130,12 @@ session_start();
                     <th style='text-align:center;'>state</t>
                 </tr>";
             while($row = mysqli_fetch_array($result)) {
-                if (@$row['userid'] == $userid) {
-                    $uid = $row['userid'];
-                    $uname = $row['username'];
+                if (@$row['id'] == $userid) {
+                    $uid = $row['id'];
+                    $uname = $row['name'];
                     $date = date("Ymd");
                     $url = 'pic/'. date('YmdHis') . '.jpg';
-                    $sql = "INSERT INTO info (userid,username,logindate,picurl)VALUES('$uid','$uname','$date','$url')";
+                    $sql = "INSERT INTO logs (userid,username,logindate,picurl)VALUES('$uid','$uname','$date','$url')";
                     if($conn->query($sql) === TRUE){
 //                        exit();
                     }else{
