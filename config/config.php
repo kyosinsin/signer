@@ -5,7 +5,7 @@
  * Date: 2017/2/20
  * Time: 16:19
  */
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "signer";
