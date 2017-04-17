@@ -150,7 +150,7 @@ session_start();
                         if (is_array($userList) && !empty($userList)) {
                             $i = 0;
                             foreach ($userList as $user) {
-                                if ($i >= 0) {
+                                if ($i > 0) {
                                     echo "<tr>";
                                     echo "<td>" . "<img alt='icon' src='{$user[5]}'" . "</td>";
                                     echo "<td>" . @$user[1] . "</td>";
