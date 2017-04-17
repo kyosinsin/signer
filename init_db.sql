@@ -9,7 +9,7 @@ create table if not exists `logs` (
 	`id` int primary key auto_increment,
     `user_id` int not null,
     `user_name` text not null,
-    `sign_time` datetime not null default now(),
+    `sign_time` datetime not null default CURRENT_TIMESTAMP,
     `type` enum('in', 'out') not null,
     `pic_url` varchar(200) not null,
     foreign key(user_id) references users(id)
