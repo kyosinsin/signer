@@ -58,7 +58,7 @@
               <td> " . $user['id'] . "</td>
               <td> " . $user['name'] . "</td>
               <td>                  
-                  <a href='deleteAction.php?id=" . $user['id'] . "');\"> delete</a>
+                  <a href='deleteAction.php?id=" . $user['id'] . "'\"> delete</a>
               </td>
              </tr>
           ";
