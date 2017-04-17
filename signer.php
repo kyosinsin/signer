@@ -117,11 +117,11 @@ session_start();
             ob_start();
 
             date_default_timezone_set('Asia/Tokyo');
-            $userid = @$_POST['inputUserID3'];
+            if($userid = @$_POST['inputUserID3']) {
 
-            //检测用户名及密码是否正确
-            $result = mysqli_query($conn,"select * from users where id='$userid'limit 1");
-            echo "<table width='1200px' align='center'; style='text-align:center;margin-top:50px;;color:black'border='3'>
+                //检测用户名及密码是否正确
+                $result = mysqli_query($conn, "select * from users where id='$userid'limit 1");
+                echo "<table width='1200px' align='center'; style='text-align:center;margin-top:50px;;color:black'border='3'>
                 <tr>
                     <th style='text-align:center;'>Icon</th>
                     <th style='text-align:center;'>UserID</th>
@@ -129,51 +129,107 @@ session_start();
                     <th style='text-align:center;'>sign in time</th>
                     <th style='text-align:center;'>state</t>
                 </tr>";
-            while($row = mysqli_fetch_array($result)) {
-                if (@$row['id'] == $userid) {
-                    $uid = $row['id'];
-                    $uname = $row['name'];
-                    $date = date("Ymd");
-                    $url = 'pic/'. date('YmdHis') . '.jpg';
-                    $sql = "INSERT INTO logs (userid,username,logindate,picurl)VALUES('$uid','$uname','$date','$url')";
-                    if($conn->query($sql) === TRUE){
-//                        exit();
-                    }else{
-                        echo "error: ".$sql."<br>".$conn->error;
-                    }
-                    $filename = 'pic/'. date('YmdHis') . '.jpg';
-                    $time = date("Y/m/d H:i:s");
-                    if (!isset($_SESSION['savedate'])) {
-                        $_SESSION['savedate'] = array();
-                        array_push($_SESSION['savedate'], array($row['userid'], $row['username'], $time, $filename));
-                    } else {
-                        array_push($_SESSION['savedate'], array($row['userid'], $row['username'], $time, $filename));
-                    }
-                    if (is_array($_SESSION['savedate']) && !empty($_SESSION['savedate'])) {
-                        $i = 0;
-                        foreach ($_SESSION['savedate'] as $savedate) {
-                            if ($i >= 0) {
-                                echo "<tr>";
-                                echo "<td>" . "<img alt='icon' src='$savedate[3]'" . "</td>";
-                                echo "<td>" . $savedate[0] . "</td>";
-                                echo "<td>" . $savedate[1] . "</td>";
-                                echo "<td>" . $savedate[2] . "</td>";
-                                echo "<td>" . "online" . "</td>";
-                                echo "</tr>";
+                while ($row = mysqli_fetch_array($result)) {
+                    if (@$row['id'] == $userid) {
+                        $uid = $row['id'];
+                        $uname = $row['name'];
+                        $date = date("Y-m-d");
+                        $url = 'pic/' . date('YmdHis') . '.jpg';
+                        $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
 
+                        if ($conn->query($sql) === TRUE) {
+//                        exit();
+                        } else {
+                            echo "error: " . $sql . "<br>" . $conn->error;
+                        }
+                        $rst = mysqli_query($conn, "select * from logs WHERE sign_time>= date(now()) and sign_time<DATE_ADD(date(now()),INTERVAL 1 DAY)");
+                        $userList[] = array();
+                        while (@$row1 = mysqli_fetch_array($rst)) {
+                            $userList[] = $row1;
+                        }
+                        if (is_array($userList) && !empty($userList)) {
+                            $i = 0;
+                            foreach ($userList as $user) {
+                                if ($i >= 0) {
+                                    echo "<tr>";
+                                    echo "<td>" . "<img alt='icon' src='{$user[5]}'" . "</td>";
+                                    echo "<td>" . @$user[1] . "</td>";
+                                    echo "<td>" . @$user[2] . "</td>";
+                                    echo "<td>" . @$user[3] . "</td>";
+                                    echo "<td>" . @$user[4] . "</td>";
+                                    echo "</tr>";
+                                }
+                                $i++;
                             }
-                            $i++;
                         }
                     }
-                    echo "</table>";
-                } else {
-                    echo "error!";
+//                    if($conn->query($sql) === TRUE){
+//                        exit();
+//                    }else{
+//                        echo "error: ".$sql."<br>".$conn->error;
+//                    }
+//                    $filename = 'pic/'. date('YmdHis') . '.jpg';
+//                    $time = date("Y/m/d H:i:s");
+//                    if (!isset($_info['savedate'])){
+//                        $_info['savedate'] = array();
+//                        array_push($_info['savedate'], array($uid, $uname, $time, $filename));
+//                    }else{
+//                        array_push($_info['savedate'], array($uid, $uname, $time, $filename));
+//                    }
+//                    if (is_array($_info['savedate']) && !empty($_info['savedate'])) {
+//                        $i = 0;
+//                        foreach ($_info['savedate'] as $savedate) {
+//                            if ($i >= 0) {
+//                                echo "<tr>";
+//                                echo "<td>" . "<img alt='icon' src='$savedate[3]'" . "</td>";
+//                                echo "<td>" . $savedate[0] . "</td>";
+//                                echo "<td>" . $savedate[1] . "</td>";
+//                                echo "<td>" . $savedate[2] . "</td>";
+//                                echo "<td>" . "in" . "</td>";
+//                                echo "</tr>";
+//
+//                            }
+//                            $i++;
+//                        }
+//                    }
+//                    echo "</table>";
+//                } else {
+//                    echo "error!";
+//                }
+//
+//                    if (!isset($_SESSION['savedate'])) {
+//                        $_SESSION['savedate'] = array();
+//                        array_push($_SESSION['savedate'], array($row['user_id'], $row['user_name'], $time, $filename));
+//                    } else {
+//                        array_push($_SESSION['savedate'], array($row['userid'], $row['username'], $time, $filename));
+//                    }
+//                    if (is_array($_SESSION['savedate']) && !empty($_SESSION['savedate'])) {
+//                        $i = 0;
+//                        foreach ($_SESSION['savedate'] as $savedate) {
+//                            if ($i >= 0) {
+//                                echo "<tr>";
+//                                echo "<td>" . "<img alt='icon' src='$savedate[3]'" . "</td>";
+//                                echo "<td>" . $savedate[0] . "</td>";
+//                                echo "<td>" . $savedate[1] . "</td>";
+//                                echo "<td>" . $savedate[2] . "</td>";
+//                                echo "<td>" . "in" . "</td>";
+//                                echo "</tr>";
+//
+//                            }
+//                            $i++;
+//                        }
+//                    }
+//                    echo "</table>";
+//                } else {
+//                    echo "error!";
+//                }
                 }
             }
-            if(@$_GET['action']=='logout'){
-                session_unset();
-            }
+//            if(@$_GET['action']=='logout'){
+//                session_unset();
+//            }
             ?>
+            </table>
         </div>
     </div>
 </div>

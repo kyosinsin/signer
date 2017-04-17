@@ -12,7 +12,7 @@ if($row>=1){
 }
 href("delete.php");
 function delete($id,$conn){
-    $sql = "delete from users where userid='$id'";
+    $sql = "delete from users where user_id='$id'";
     mysqli_query($conn,$sql);
     $rows= mysqli_affected_rows($conn);
     return $rows;
