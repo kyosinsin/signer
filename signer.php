@@ -40,7 +40,6 @@ session_start();
             </h1>
         </div>
         <div class="col-md-4 column" style="margin-top: 160px">
-            <a href="./search.php">管理者ページ</a>
             <h5>* Turn your sight on camera when you sign in the system </h5>
         </div>
     </div>
