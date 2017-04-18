@@ -31,7 +31,7 @@
                     </ul>
                     <form class="navbar-form navbar-left" role="search" action="search.php" method="post">
                         <div class="form-group">
-                            <input type="text" name="logindate" class="form-control" placeholder="例：20171205"/>
+                            <input type="text" name="logindate" class="form-control" placeholder="例：2017-12-05"/>
                         </div> <button type="submit" class="btn btn-default">Submit</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
@@ -56,7 +56,7 @@
                     mysqli_select_db($conn,'signer');
                     $logindate=@$_POST['logindate'];
                     if($logindate) {
-                        $result = mysqli_query($conn, "select * from info where logindate='$logindate'");
+                        $result = mysqli_query($conn, "select * from logs where DATE_FORMAT(sign_time,'%Y-%m-%d') = '".$logindate."'");
                         $userList[] = array();
 
                         while (@$row = mysqli_fetch_array($result)) {
@@ -67,10 +67,10 @@
                             foreach ($userList as $user) {
                                 if ($i > 0) {
                                     echo "<tr>";
-                                    echo "<td><img src='{$user['picurl']}'></td>";
-                                    echo "<td>" . $user['userid'] . "</td>";
-                                    echo "<td>" . $user['username'] . "</td>";
-                                    echo "<td>" . $user['logindate'] . "</td>";
+                                    echo "<td><img style='width: 160px; height: 120px;' src='{$user['pic_url']}'></td>";
+                                    echo "<td>" . $user['user_id'] . "</td>";
+                                    echo "<td>" . $user['user_name'] . "</td>";
+                                    echo "<td>" . $user['sign_time'] . "</td>";
                                     echo "</tr>";
                                 }
                                 $i++;

@@ -76,7 +76,7 @@ session_start();
                     webcam.set_api_url( 'action.php' );
                     webcam.set_quality( 100 ); // JPEG quality (1 - 100)
                     webcam.set_shutter_sound( false ); // play shutter click sound
-                    document.write( webcam.get_html(250, 170, 70,50) );
+                    document.write( webcam.get_html(250, 170, 400,300) );
                 </script>
 
                 <script language="JavaScript">
@@ -151,7 +151,7 @@ session_start();
                             foreach ($userList as $user) {
                                 if ($i > 0) {
                                     echo "<tr>";
-                                    echo "<td>" . "<img alt='icon' src='{$user[5]}'" . "</td>";
+                                    echo "<td>" . "<img alt='icon' style='width: 160px; height: 120px;' src='{$user[5]}'" . "</td>";
                                     echo "<td>" . @$user[1] . "</td>";
                                     echo "<td>" . @$user[2] . "</td>";
                                     echo "<td>" . @$user[3] . "</td>";
