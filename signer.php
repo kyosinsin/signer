@@ -38,6 +38,8 @@ session_start();
             <h1 class="text-center">
                 Signer
             </h1>
+            <h3>Reset ALLを押してからsign in</h3>
+            <h3>sign inは一度で大丈夫!</h3>
         </div>
         <div class="col-md-4 column" style="margin-top: 160px">
             <h5>* Turn your sight on camera when you sign in the system </h5>
@@ -132,7 +134,6 @@ session_start();
                     if (@$row['id'] == $userid) {
                         $uid = $row['id'];
                         $uname = $row['name'];
-                        $date = date("Y-m-d");
                         $url = 'pic/' . date('YmdHis') . '.jpg';
                         $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
 
