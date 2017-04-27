@@ -38,8 +38,9 @@ session_start();
             <h1 class="text-center">
                 Signer
             </h1>
-            <h3>Reset ALLを押してからsign in</h3>
-            <h3>sign inは一度で大丈夫!</h3>
+            <h4>----Reset ALLを押してからsign in----</h4>
+            <h4>----sign inは一度で大丈夫!----</h4>
+            <h4>----只用登陆一次，否则作废!----</h4>
         </div>
         <div class="col-md-4 column" style="margin-top: 160px">
             <h5>* Turn your sight on camera when you sign in the system </h5>
@@ -119,7 +120,7 @@ session_start();
 
             date_default_timezone_set('Asia/Tokyo');
             if($userid = @$_POST['inputUserID3']) {
-
+                $_SESSION['id']= $_POST['inputUserID3'];
                 //检测用户名及密码是否正确
                 $result = mysqli_query($conn, "select * from users where id='$userid'limit 1");
                 echo "<table width='1200px' align='center'; style='text-align:center;margin-top:50px;;color:black'border='3'>
@@ -131,35 +132,36 @@ session_start();
                     <th style='text-align:center;'>state</t>
                 </tr>";
                 while ($row = mysqli_fetch_array($result)) {
-                    if (@$row['id'] == $userid) {
-                        $uid = $row['id'];
-                        $uname = $row['name'];
-                        $url = 'pic/' . date('YmdHis') . '.jpg';
-                        $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
+                        if (@$row['id'] == $userid) {
+                            $uid = $row['id'];
+                            $uname = $row['name'];
+                            $url = 'pic/' . date('YmdHis') . '.jpg';
+                            $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
 
-                        if ($conn->query($sql) === TRUE) {
+                            if ($conn->query($sql) === TRUE) {
 //                        exit();
-                        } else {
-                            echo "error: " . $sql . "<br>" . $conn->error;
-                        }
-                        $rst = mysqli_query($conn, "select * from logs WHERE sign_time>= date(now()) and sign_time<DATE_ADD(date(now()),INTERVAL 1 DAY)");
-                        $userList[] = array();
-                        while (@$row1 = mysqli_fetch_array($rst)) {
-                            $userList[] = $row1;
-                        }
-                        if (is_array($userList) && !empty($userList)) {
-                            $i = 0;
-                            foreach ($userList as $user) {
-                                if ($i > 0) {
-                                    echo "<tr>";
-                                    echo "<td>" . "<img alt='icon' style='width: 160px; height: 120px;' src='{$user[5]}'" . "</td>";
-                                    echo "<td>" . @$user[1] . "</td>";
-                                    echo "<td>" . @$user[2] . "</td>";
-                                    echo "<td>" . @$user[3] . "</td>";
-                                    echo "<td>" . @$user[4] . "</td>";
-                                    echo "</tr>";
+                            } else {
+                                echo "error: " . $sql . "<br>" . $conn->error;
+                            }
+                            $rst = mysqli_query($conn, "select * from logs WHERE sign_time>= date(now()) and sign_time<DATE_ADD(date(now()),INTERVAL 1 DAY)");
+                            $userList[] = array();
+                            while (@$row1 = mysqli_fetch_array($rst)) {
+                                $userList[] = $row1;
+                            }
+                            if (is_array($userList) && !empty($userList)) {
+                                $i = 0;
+                                foreach ($userList as $user) {
+                                    if ($i > 0) {
+                                        echo "<tr>";
+                                        echo "<td>" . "<img alt='icon' style='width: 160px; height: 120px;' src='{$user[5]}'" . "</td>";
+                                        echo "<td>" . @$user[1] . "</td>";
+                                        echo "<td>" . @$user[2] . "</td>";
+                                        echo "<td>" . @$user[3] . "</td>";
+                                        echo "<td>" . @$user[4] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                    $i++;
                                 }
-                                $i++;
                             }
                         }
                     }
@@ -224,7 +226,7 @@ session_start();
 //                    echo "error!";
 //                }
                 }
-            }
+
 //            if(@$_GET['action']=='logout'){
 //                session_unset();
 //            }
