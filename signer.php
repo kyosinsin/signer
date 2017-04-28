@@ -38,7 +38,7 @@ session_start();
             <h1 class="text-center">
                 Signer
             </h1>
-            <h4>----Reset ALLを押してからsign in----</h4>
+            <h4>---Reset ALLを押してからsign in---</h4>
             <h4>----sign inは一度で大丈夫!----</h4>
             <h4>----只用登陆一次，否则作废!----</h4>
         </div>
