@@ -6,8 +6,8 @@
  * Time: 16:19
  */
 $servername = "127.0.0.1";
-$username = "root";
-$password = "";
+$username = "signer";
+$password = "signer";
 $dbname = "signer";
 //创建连接
 $conn = new mysqli($servername,$username,$password,$dbname);
