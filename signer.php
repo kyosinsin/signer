@@ -120,7 +120,6 @@ session_start();
 
             date_default_timezone_set('Asia/Tokyo');
             if($userid = @$_POST['inputUserID3']) {
-                $_SESSION['id']= $_POST['inputUserID3'];
                 //检测用户名及密码是否正确
                 $result = mysqli_query($conn, "select * from users where id='$userid'limit 1");
                 echo "<table width='1200px' align='center'; style='text-align:center;margin-top:50px;;color:black'border='3'>
