@@ -165,9 +165,9 @@ new WOW().init();
 						<li class="dropdown profile_details_drop">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 								<div class="profile_img">
-									<span class="prfil-img"><img src="images/a.png" alt=""> </span>
+									<span class="prfil-img"><img src="images/pagu.jpg" alt=""> </span>
 									<div class="user-name">
-										<p>Wikolia</p>
+										<p>パグさん</p>
 										<span>Administrator</span>
 									</div>
 									<i class="fa fa-angle-down lnr"></i>

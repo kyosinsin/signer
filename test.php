@@ -3,8 +3,6 @@
 require_once('config/config.php');
 mysqli_select_db($conn,'signer');
 date_default_timezone_set('Asia/Tokyo');
-//
-//$sql = 'select count(*) as cnt from logs where user_id = 1';
 
 //$sql = "select sign_time count(*) as cnt from logs where yearweek(date_format(sign_time,'%Y-%m-%d')) = yearweek(now())-1";
 
@@ -17,11 +15,20 @@ $lastSunday = date("Y-m-d",strtotime("Sunday previous week"));
 $lastMonday = date("Y-m-d",strtotime("Monday previous week"));
 //$lastSunday = date("Y-m-d",strtotime("-1 week Monday"));
 //$lastMonday=date("Y-m-d",strtotime("-1 week Sunday"));
-if($result = mysqli_query($conn,"select sign_time from logs where sign_time>=$lastSunday and sign_time<=$lastMonday")){
-   $row_cnt = $result -> num_rows;
-    echo $row_cnt;
-    echo $lastSunday;
+//$lastMonday = strtotime("2017-05-15");
+//$lastSunday = strtotime("2017-05-21");
+if($result = mysqli_query($conn,"select * from logs where date_format(sign_time,'%Y-%m-%d') <= date_format($lastSunday,'%Y-%m-%d') 
+and date_format(sign_time,'%Y-%m-%d') >= date_format($lastMonday,'%Y-%m-%d')")){
+print_r($result);
+    $count = mysqli_num_rows($result);
+    echo $count."<br>";
+}else{
+    echo "empty"."<br>";
 }
+echo "Monday:".$lastMonday. '<br>';
+
+echo "Sunday:".$lastSunday;
+
 //echo date($endLastweek);
 //echo date("Y-m-d",strtotime("-1 week Monday")), "<br />"; //离现在最近的周一
 //echo date("Y-m-d",strtotime("-1 week Sunday")), "<br />"; //离现在最近的周末
