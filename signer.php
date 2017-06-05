@@ -135,10 +135,18 @@ session_start();
                             $uid = $row['id'];
                             $uname = $row['name'];
                             $url = 'pic/' . date('YmdHis') . '.jpg';
-                            $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
-
+                            $date_time = date("H:i:s");
+                            $m_start = date("17:00:00");
+                            $day_end = date("23:59:59");
+                            $day_start = date("00:00:01");
+                            $m_stop = date("06:00:00");
+                            if($date_time > $m_start && $date_time < $day_end || $date_time > $day_start && $date_time < $m_stop){
+                                echo "<script>alert('Now maintaining')</script>";
+                            }else{
+                                $sql = "INSERT INTO logs (user_id,user_name,pic_url)VALUES('$uid','$uname','$url')";
+                            }
                             if ($conn->query($sql) === TRUE) {
-//                        exit();
+
                             } else {
                                 echo "error: " . $sql . "<br>" . $conn->error;
                             }
